@@ -25,6 +25,7 @@
 #include "threadlocal.h"
 #include "miniposix.h"
 #include <stdlib.h>
+#include <string>
 #include <exception>
 #include <new>
 #include <signal.h>
@@ -227,30 +228,15 @@ kj::StringPtr trimSourceFilename(kj::StringPtr filename) {
   // locations that represent roots of the source tree. We strip said root and everything before
   // it.
 
-  static constexpr const char* ROOTS[] = {
-    "ekam-provider/canonical/",  // Ekam source file.
-    "ekam-provider/c++header/",  // Ekam include file.
-    "src/",                      // Non-Ekam source root.
-    "tmp/"                       // Non-Ekam generated code.
-  };
-
-retry:
-  for (size_t i: kj::indices(filename)) {
-    if (i == 0 || filename[i-1] == '/') {
-      // We're at the start of a directory name. Check for valid prefixes.
-      for (kj::StringPtr root: ROOTS) {
-        if (filename.slice(i).startsWith(root)) {
-          filename = filename.slice(i + root.size());
-
-          // We should keep searching to find the last instance of a root name. `i` is no longer
-          // a valid index for `filename` so start the loop over.
-          goto retry;
-        }
-      }
-    }
+  const char *const PREFIX = "/c++/src/";
+    
+  std::string s = filename.cStr() ;
+  size_t found = s.rfind(PREFIX);
+  if (found == std::string::npos) {
+    return filename;
   }
 
-  return filename;
+  return filename.slice(found+strlen(PREFIX));
 }
 
 StringPtr KJ_STRINGIFY(Exception::Type type) {

@@ -19,6 +19,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+#include <iostream>
+
 #include "exception.h"
 #include "debug.h"
 #include <kj/compat/gtest.h>
@@ -28,7 +30,10 @@ namespace _ {  // private
 namespace {
 
 TEST(Exception, TrimSourceFilename) {
+  // std::cout << trimSourceFilename(__FILE__).cStr() << std::endl;
   EXPECT_EQ(trimSourceFilename(__FILE__), "kj/exception-test.c++");
+  EXPECT_EQ(trimSourceFilename("/c++/src/"), "");
+  EXPECT_EQ(trimSourceFilename("a/c++/src/b/c++/src/test.c"), "test.c");
 }
 
 TEST(Exception, RunCatchingExceptions) {
