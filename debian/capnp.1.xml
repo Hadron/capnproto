@@ -1,0 +1,290 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+
+  <!-- Fill in your name for FIRSTNAME and SURNAME. -->
+  <!ENTITY dhfirstname "Tom">
+  <!ENTITY dhsurname   "Lee">
+  <!-- dhusername could also be set to "&dhfirstname; &dhsurname;". -->
+  <!ENTITY dhusername  "&dhfirstname; &dhsurname;">
+  <!ENTITY dhemail     "debian@tomlee.co">
+  <!-- SECTION should be 1-8, maybe w/ subsection other parameters are
+       allowed: see man(7), man(1) and
+       http://www.tldp.org/HOWTO/Man-Page/q2.html. -->
+  <!ENTITY dhsection   "1">
+  <!-- TITLE should be something like "User commands" or similar (see
+       http://www.tldp.org/HOWTO/Man-Page/q2.html). -->
+  <!ENTITY dhtitle     "capnp User Manual">
+  <!ENTITY dhucpackage "CAPNPROTO">
+  <!ENTITY dhpackage   "capnp">
+]>
+
+<refentry>
+  <refentryinfo>
+    <title>&dhtitle;</title>
+    <productname>&dhpackage;</productname>
+    <authorgroup>
+      <author>
+       <firstname>&dhfirstname;</firstname>
+        <surname>&dhsurname;</surname>
+        <contrib>Wrote this manpage for the Debian system.</contrib>
+        <address>
+          <email>&dhemail;</email>
+        </address>
+      </author>
+    </authorgroup>
+    <copyright>
+      <year>2013</year>
+      <holder>&dhusername;</holder>
+    </copyright>
+    <legalnotice>
+      <para>This manual page was written for the Debian system
+        (and may be used by others).</para>
+      <para>Permission is granted to copy, distribute and/or modify this
+        document under the terms of the GNU General Public License,
+        Version 2 or (at your option) any later version published by
+        the Free Software Foundation.</para>
+      <para>On Debian systems, the complete text of the GNU General Public
+        License can be found in
+        <filename>/usr/share/common-licenses/GPL</filename>.</para>
+    </legalnotice>
+  </refentryinfo>
+  <refmeta>
+    <refentrytitle>&dhucpackage;</refentrytitle>
+    <manvolnum>&dhsection;</manvolnum>
+  </refmeta>
+  <refnamediv>
+    <refname>&dhpackage;</refname>
+    <refpurpose>compiler for Cap'n Proto data interchange format definition files</refpurpose>
+  </refnamediv>
+  <refsynopsisdiv>
+    <cmdsynopsis>
+      <command>&dhpackage;</command>
+      <arg choice="opt"><replaceable>&lt;options&gt;</replaceable></arg>
+      <arg choice="plain"><replaceable>&lt;command&gt;</replaceable></arg>
+      <arg choice="opt"><replaceable>&lt;args&gt;</replaceable></arg>
+    </cmdsynopsis>
+    <cmdsynopsis>
+      <command>&dhpackage;</command>
+      <arg choice="plain">id</arg>
+    </cmdsynopsis>
+    <cmdsynopsis>
+      <command>&dhpackage;</command>
+      <!-- Normally the help and version options make the programs stop
+           right after outputting the requested information. -->
+      <group choice="opt">
+        <arg choice="plain"><option>--help</option></arg>
+        <arg choice="plain"><option>--version</option></arg>
+      </group>
+    </cmdsynopsis>
+  </refsynopsisdiv>
+  <refsect1 id="description">
+    <title>DESCRIPTION</title>
+    <para>This manual page documents briefly the
+      <command>&dhpackage;</command> command.</para>
+    <para>It was written for the Debian distribution
+      because the original program does not have a manual page.</para>
+    <para><command>&dhpackage;</command> is wrapper for various tools
+      used to manipulate the Cap'n Proto data interchange format.
+      These tools include a definition file compiler, a C++ backend, a
+      decoder for converting Cap'n Proto messages to text and a
+      generator for Cap'n Proto definition IDs.</para>
+  </refsect1>
+  <refsect1 id="options">
+    <title>OPTIONS</title>
+    <para>The program follows the usual GNU command line syntax,
+      with long options starting with two dashes (`-').  A summary of
+      options is included below.</para>
+    <variablelist>
+      <!-- Use the variablelist.term.separator and the
+           variablelist.term.break.after parameters to
+           control the term elements. -->
+      <varlistentry>
+        <term><option>-I<replaceable>DIR</replaceable></option></term>
+        <term>
+          <option>--import-path<replaceable>DIR</replaceable></option>
+        </term>
+        <listitem>
+          <para>
+            Add DIR to the list of directories searched for non-relative
+            imports (ones that start with a '/').
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><option>--no-standard-import</option></term>
+        <listitem>
+          <para>
+            Do not add any default import paths; use only those specified by
+            -I. Otherwise, typically /usr/include and /usr/local/include are
+            added by default.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><option>--verbose</option></term>
+        <listitem>
+          <para>
+            Log informational messages to stderr; useful for debugging.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><option>--help</option></term>
+        <listitem>
+          <para>Show summary of options.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><option>--version</option></term>
+        <listitem>
+          <para>Show version of program.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </refsect1>
+  <refsect1 id="commands">
+    <title>COMMANDS</title>
+    <refsect2 id="compile_command">
+      <title>compile</title>
+      <para>Compile Cap'n Proto schema files &amp; generate corresponding
+        source code in one or more languages.
+      </para>
+      <refsect3 id="compile_command_options">
+        <title>OPTIONS</title>
+        <variablelist>
+          <varlistentry>
+            <term><option>-I<replaceable>&lt;dir&gt;</replaceable></option></term>
+            <term><option>--import-path=<replaceable>&lt;dir&gt;</replaceable></option></term>
+            <listitem>
+              <para>
+  <![CDATA[
+  Add <dir> to the list of directories searched for non-relative imports
+  (ones that start with a '/').
+  ]]>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><option>--no-standard-import</option></term>
+            <listitem>
+              <para>
+  <![CDATA[
+  Do not add any default import paths; use only those specified by -I.
+  Otherwise, typically /usr/include and /usr/local/include are added by
+  default.
+  ]]>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><option>-o<replaceable>lang[:<replaceable>dir</replaceable>]</replaceable></option></term>
+            <term><option>--output=<replaceable>lang[:<replaceable>dir</replaceable>]</replaceable></option></term>
+            <listitem>
+              <para>
+  <![CDATA[
+  Generate source code for language <lang> in directory <dir> (default:
+  current directory).  <lang> actually specifies a plugin to use.  If
+  <lang> is a simple word, the compiler for a plugin called
+  'capnpc-<lang>' in $PATH.  If <lang> is a file path containing slashes,
+  it is interpreted as the exact plugin executable file name, and $PATH is
+  not searched.
+  ]]>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><option>--src-prefix=<replaceable>&lt;prefix&gt;</replaceable></option></term>
+            <listitem>
+              <para>
+  <![CDATA[
+  If a file specified for compilation starts with <prefix>, remove the
+  prefix for the purpose of deciding the names of output files.  For
+  example, the following command:
+      capnp --src-prefix=foo/bar -oc++:corge foo/bar/baz/qux.capnp
+  would generate the files corge/baz/qux.capnp.{h,c++}.
+  ]]>
+              </para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </refsect3>
+    </refsect2>
+    <refsect2 id="decode_command">
+      <title>decode</title>
+      <para>
+        Decodes one or more encoded Cap'n Proto messages as text.
+        Messages are read from standard input and by default are expected
+        to be in standard Cap'n Proto serialization format.
+      </para>
+      <refsect3 id="decode_command_options">
+        <title>OPTIONS</title>
+        <variablelist>
+          <varlistentry>
+            <term><option>-I<replaceable>&lt;dir&gt;</replaceable></option></term>
+            <term><option>--import-path=<replaceable>&lt;dir&gt;</replaceable></option></term>
+            <listitem>
+              <para>
+                Add &lt;dir&gt; to the list of directories searched for
+                non-relative imports (ones that start with a '/').
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><option>-f</option></term>
+            <term><option>--flat</option></term>
+            <listitem>
+              <para>
+                Interpret the input as one large single-segment message rather than a
+                stream in standard serialization format.
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><option>--no-standard-import</option></term>
+            <listitem>
+              <para>
+                Do not add any default import paths; use only those specified by -I.
+                Otherwise, typically /usr/include and /usr/local/include are added by
+                default.
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><option>-p</option></term>
+            <term><option>--packed</option></term>
+            <listitem>
+              <para>
+                Expect the input to be packed using standard Cap'n Proto packing, which
+                deflates zero-valued bytes.
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><option>--short</option></term>
+            <listitem>
+              <para>
+                Print in short (non-pretty) format.  Each message will be printed on one
+                line, without using whitespace to improve readability.
+              </para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </refsect3>
+    </refsect2>
+    <refsect2 id="id_command">
+      <title>id</title>
+      <para>
+        Generates a unique identifier for Cap'n Proto schema files.
+      </para>
+    </refsect2>
+  </refsect1>
+  <refsect1 id="see_also">
+    <title>SEE ALSO</title>
+    <para>
+      More documentation about Cap'n Proto is available online at 
+      <ulink url="http://capnproto.org" />.
+    </para>
+  </refsect1>
+</refentry>
+

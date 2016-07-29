@@ -1,0 +1,5 @@
+libcapnp-0.5.2 binary: no-symbols-control-file usr/lib/libcapnp2.so
+libcapnp-0.5.2 binary: no-symbols-control-file usr/lib/libcapnp2-rpc-0.5.2.so
+libcapnp-0.5.2 binary: no-symbols-control-file usr/lib/libcapnpc-0.5.2.so
+libcapnp-0.5.2 binary: no-symbols-control-file usr/lib/libkj-0.5.2.so
+libcapnp-0.5.2 binary: no-symbols-control-file usr/lib/libkj-async-0.5.2.so

@@ -1,0 +1,69 @@
+capnproto (0.5.3-1) unstable; urgency=medium
+
+  * test
+
+ -- Klee Dienes <klee@debian.org>  Fri, 29 Jul 2016 06:51:42 -0400
+
+capnproto (0.5.2-2) unstable; urgency=low
+
+  * Enable parallel builds
+  * Drop postinst/postrm scripts, dh_makeshlibs adds ldconfig
+  * Attempt to fix GNU/Hurd FTBFS
+  * Update .gitignore
+  * Add support for cmake *Config files
+
+ -- Tom Lee <debian@tomlee.co>  Sat, 09 May 2015 02:13:59 -0700
+
+capnproto (0.5.2-1) unstable; urgency=low
+
+  * Imported Upstream version 0.5.2
+  * Remove the (now unnecessary) MIPS NaN patch
+  * Update Standards-Version to 3.9.6
+  * Verbose output for dh_auto_test
+  * Fix the watch file URL
+  * Update Homepage in debian/control
+
+ -- Tom Lee <debian@tomlee.co>  Sun, 03 May 2015 00:49:25 -0700
+
+capnproto (0.4.1-3) unstable; urgency=high
+
+  * Fix CVE-2015-2310: Integer overflow in pointer validation (Closes: 780565)
+  * Fix CVE-2015-2311: Integer underflow in pointer validation (Closes: 780566)
+  * Fix CVE-2015-2312: CPU usage amplification attack (Closes: 780567)
+  * Fix CVE-2015-2313: CPU usage amplification attack #2 (Closes: 780568)
+
+ -- Tom Lee <debian@tomlee.co>  Tue, 17 Mar 2015 19:53:24 -0800
+
+capnproto (0.4.1-2) unstable; urgency=low
+
+  * Applying upstream patch for NaN on mips64el (Closes: 743402)
+
+ -- Tom Lee <debian@tomlee.co>  Tue, 29 Apr 2014 01:06:24 -0700
+
+capnproto (0.4.1-1) unstable; urgency=low
+
+  * Applying a downstream patch for ppc64el (Closes: 735232)
+  * Install capnp.pc and capnp-rpc.pc to the correct location
+  * Imported Upstream version 0.4.1
+
+ -- Tom Lee <debian@tomlee.co>  Wed, 09 Apr 2014 12:00:31 -0700
+
+capnproto (0.4.0-1) unstable; urgency=low
+
+  * Updated packaging, include libkj-async and libcapnp-rpc.
+  * Imported Upstream version 0.4.0
+
+ -- Tom Lee <debian@tomlee.co>  Sun, 15 Dec 2013 10:41:21 -0700
+
+capnproto (0.3.0-1) unstable; urgency=low
+
+  * Fix Vcs-Git URL
+  * Imported Upstream version 0.3.0
+
+ -- Tom Lee <debian@tomlee.co>  Wed, 13 Nov 2013 12:45:02 -0700
+
+capnproto (0.2.1-1) unstable; urgency=low
+
+  * Initial release (Closes: #719782)
+
+ -- Tom Lee <debian@tomlee.co>  Tue, 20 Aug 2013 00:18:16 -0700

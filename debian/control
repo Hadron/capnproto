@@ -1,0 +1,69 @@
+Source: capnproto
+Section: devel
+Priority: optional
+Maintainer: Tom Lee <debian@tomlee.co>
+Build-Depends: debhelper (>= 9), gcc (>= 4.7),
+ python-all (>= 2.6), dpkg-dev (>= 1.16.1.1), docbook-xsl, docbook-xml,
+ xsltproc, dh-autoreconf, netbase
+Standards-Version: 3.9.6
+Homepage: https://capnproto.org/
+Vcs-Git: git://github.com/thomaslee/capnproto-debian
+Vcs-Browser: http://github.com/thomaslee/capnproto-debian
+
+Package: libcapnp2
+Architecture: any
+Multi-Arch: same
+Section: libs
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Cap'n Proto C++ library
+ Similar to Protocol Buffers, Cap'n Proto is an efficient means of
+ serializing structured data to be transferred across a network or
+ written to disk. Users write a Cap'n Proto definition file that
+ drives a code generator, which in turn emits C++ code for encoding &
+ decoding messages in the Cap'n Proto format.
+ .
+ In addition to being extremely fast, Cap'n Proto also smooths over some
+ of the rougher aspects of Protocol Buffers & introduces a number of new
+ features to boot.
+ .
+ This package contains the runtime libraries needed for C++ applications.
+
+Package: libcapnp-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: ${misc:Depends}, libcapnp-0.5.2 (= ${binary:Version})
+Description: Cap'n Proto C++ library (development files)
+ Similar to Protocol Buffers, Cap'n Proto is an efficient means of
+ serializing structured data to be transferred across a network or
+ written to disk. Users write a Cap'n Proto definition file that
+ drives a code generator, which in turn emits C++ code for encoding &
+ decoding messages in the Cap'n Proto format.
+ .
+ In addition to being extremely fast, Cap'n Proto also smooths over some
+ of the rougher aspects of Protocol Buffers & introduces a number of new
+ features to boot.
+ .
+ This package contains the headers and static libraries needed for writing
+ C++ applications.
+
+Package: capnproto
+Architecture: any
+Multi-Arch: foreign
+Depends: ${shlibs:Depends}, ${misc:Depends},
+ libcapnp-0.5.2 (= ${binary:Version})
+Description: tool for working with the Cap'n Proto data interchange format
+ Similar to Protocol Buffers, Cap'n Proto is an efficient means of
+ serializing structured data to be transferred across a network or
+ written to disk. Users write a Cap'n Proto definition file that
+ drives a code generator, which in turn emits C++ code for encoding &
+ decoding messages in the Cap'n Proto format.
+ .
+ In addition to being extremely fast, Cap'n Proto also smooths over some
+ of the rougher aspects of Protocol Buffers & introduces a number of new
+ features to boot.
+ .
+ This package contains a small suite of tools for developing & maintaining
+ your Cap'n Proto schema files, including a code generator for compiling
+ your schema files to supported languages.

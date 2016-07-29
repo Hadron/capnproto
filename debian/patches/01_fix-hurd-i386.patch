@@ -1,0 +1,119 @@
+Description: Fix build error on hurd-i386.
+  hurd-i386 does not define IOV_MAX. Here we provide a more robust way to
+  determine the max iovs allowed during readv/writev operations.
+Author: Tom Lee <debian@tomlee.co>
+Forwarded: https://github.com/sandstorm-io/capnproto/pull/202
+Last-Update: 2015-05-09
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -136,6 +136,9 @@
+ pkgconfigdir = $(libdir)/pkgconfig
+ pkgconfig_DATA = capnp.pc capnp-rpc.pc
+ 
++noinst_HEADERS = \
++  src/kj/iovmax.h
++
+ includekj_HEADERS =                                            \
+   src/kj/common.h                                              \
+   src/kj/units.h                                               \
+--- a/src/kj/io.c++
++++ b/src/kj/io.c++
+@@ -22,9 +22,9 @@
+ #include "io.h"
+ #include "debug.h"
+ #include "miniposix.h"
++#include "iovmax.h"
+ #include <algorithm>
+ #include <errno.h>
+-#include <limits.h>
+ 
+ #if !_WIN32
+ #include <sys/uio.h>
+@@ -290,15 +290,10 @@
+   }
+ 
+ #else
+-  // Apparently, there is a maximum number of iovecs allowed per call.  I don't understand why.
+-  // Also, most platforms define IOV_MAX but Linux defines only UIO_MAXIOV.  Unfortunately, Solaris
+-  // defines a constant UIO_MAXIOV with a different meaning, so we check for IOV_MAX first.
+-#if !defined(IOV_MAX) && defined(UIO_MAXIOV)
+-#define IOV_MAX UIO_MAXIOV
+-#endif
+-  while (pieces.size() > IOV_MAX) {
+-    write(pieces.slice(0, IOV_MAX));
+-    pieces = pieces.slice(IOV_MAX, pieces.size());
++  const size_t iovmax = iovMax(pieces.size());
++  while (pieces.size() > iovmax) {
++    write(pieces.slice(0, iovmax));
++    pieces = pieces.slice(iovmax, pieces.size());
+   }
+ 
+   KJ_STACK_ARRAY(struct iovec, iov, pieces.size(), 16, 128);
+--- /dev/null
++++ b/src/kj/iovmax.h
+@@ -0,0 +1,63 @@
++// Copyright (c) 2013-2014 Sandstorm Development Group, Inc. and contributors
++// Licensed under the MIT License:
++//
++// Permission is hereby granted, free of charge, to any person obtaining a copy
++// of this software and associated documentation files (the "Software"), to deal
++// in the Software without restriction, including without limitation the rights
++// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++// copies of the Software, and to permit persons to whom the Software is
++// furnished to do so, subject to the following conditions:
++//
++// The above copyright notice and this permission notice shall be included in
++// all copies or substantial portions of the Software.
++//
++// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++// THE SOFTWARE.
++
++#ifndef KJ_IOVMAX_H_
++#define KJ_IOVMAX_H_
++
++#if !_WIN32
++#include <limits.h>
++
++// Apparently, there is a maximum number of iovecs allowed per call.  I don't understand why.
++// Most platforms define IOV_MAX but Linux defines only UIO_MAXIOV and others, like Hurd,
++// define neither.
++//
++// On platforms where both IOV_MAX and UIO_MAXIOV are undefined, we poke sysconf(_SC_IOV_MAX),
++// try to fall back to the POSIX-mandated minimum of _XOPEN_IOV_MAX if that fails.
++//
++// http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/limits.h.html#tag_13_23_03_01
++inline size_t iovMax(size_t count)
++{
++#if defined(IOV_MAX)
++    // Solaris (and others?)
++    return IOV_MAX;
++#elif defined(UIO_MAXIOV)
++    // Linux
++    return UIO_MAXIOV;
++#else
++    // POSIX mystery meat
++
++    long iovmax;
++
++    errno = 0;
++    if ((iovmax = sysconf(_SC_IOV_MAX)) == -1) {
++        // assume iovmax == -1 && errno == 0 means "unbounded"
++        return errno ? _XOPEN_IOV_MAX : count;
++    }
++    else {
++        return (size_t) iovmax;
++    }
++#endif
++}
++
++#endif
++
++#endif // KJ_IOVMAX_H_
++
